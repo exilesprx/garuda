@@ -35,6 +35,22 @@ services:
     restart: unless-stopped
     sysctls:
       - net.ipv4.ip_local_port_range=1024 65000
+
+  prometheus:
+    image: prom/prometheus:v2.39.1
+    ports:
+      - 9090:9090
+    volumes:
+      - prometheus:/etc/prometheus
+
+  proxy:
+    build: .docker/haproxy/
+    ports:
+      - "80:80"
+      - "8404:8404"
+
  
 volumes:
     config:
+    prometheus:
+    haproxy:
