@@ -5,6 +5,6 @@ check_interval = 0
   session_timeout = 1800
 
 ## Add to runners
-## url = "http://gitlab.garuda.dev"
-## clone_url = "http://gitlab.garuda.dev"
+## url = "http://gitlab.garuda.lan"
+## clone_url = "http://gitlab.garuda.lan"
 ## privileged = true
