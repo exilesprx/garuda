@@ -41,7 +41,7 @@ services:
       - prometheus:/etc/prometheus
 
   gitlab:
-    image: gitlab/gitlab-ee:15.4.2-ee.0
+    image: gitlab/gitlab-ee:15.4.4-ee.0
     restart: always
     hostname: gitlab
     environment:
