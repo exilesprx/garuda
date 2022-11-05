@@ -1,0 +1,10 @@
+concurrent = 1
+check_interval = 0
+
+[session_server]
+  session_timeout = 1800
+
+## Add to runners
+## url = "http://gitlab.garuda.dev"
+## clone_url = "http://gitlab.garuda.dev"
+## privileged = true
