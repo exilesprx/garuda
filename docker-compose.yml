@@ -23,8 +23,8 @@ services:
     restart: always
     ports:
       - "80:80"
+      - "443:443"
       - "8404:8404"
-      - "9999:9999"
     volumes:
       - certificates:/usr/local/etc/haproxy/certificates:ro
     depends_on:
@@ -65,6 +65,15 @@ services:
     hostname: 'gitlab-runner'
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock'
+
+  cert-auth:
+    build:
+      context: ./.docker/cert-authority
+    stdin_open: true 
+    tty: true
+    volumes:
+      - cert-authority:/usr/lib/easy-rsa/easyrsa3/
+      - certificates:/usr/local/etc/haproxy/certificates
  
 volumes:
     config:
@@ -75,6 +84,7 @@ volumes:
     gitlab-log:
     gitlab-opt:
     runner:
+    cert-authority:
 
 networks:
   default:
