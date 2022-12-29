@@ -12,8 +12,8 @@ services:
     environment:
       - DNS_SERVER_DOMAIN=dns-server #The primary domain name used by this DNS Server to identify itself.
     volumes:
-      - config:/etc/dns/config
-    restart: unless-stopped
+      - config
+    restart: always
     sysctls:
       - net.ipv4.ip_local_port_range=1024 65000
 
@@ -25,66 +25,15 @@ services:
       - "80:80"
       - "443:443"
       - "8404:8404"
+      - "2222:2222"
     volumes:
       - certificates:/usr/local/etc/haproxy/certificates:ro
-    depends_on:
-      - prometheus
-      - gitlab
-      - dns-server
 
-  prometheus:
-    image: prom/prometheus:v2.39.1
-    restart: always
-    ports:
-      - 9090:9090
-    volumes:
-      - prometheus:/etc/prometheus
-
-  gitlab:
-    image: gitlab/gitlab-ee:15.4.4-ee.0
-    restart: always
-    hostname: gitlab
-    environment:
-      GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://gitlab.garuda.lan'
-        # Add any other gitlab.rb configuration here, each on its own line
-    ports:
-      - '8080:80'
-      - '8081:443'
-      - '2222:22'
-    volumes:
-      - gitlab-config:/etc/gitlab
-      - gitlab-log:/var/log/gitlab
-      - gitlab-opt:/var/opt/gitlab
-    shm_size: '256m'
-
-  runner:
-    build:
-      context: ./.docker/runner
-    restart: always
-    hostname: 'gitlab-runner'
-    volumes:
-      - '/var/run/docker.sock:/var/run/docker.sock'
-
-  cert-auth:
-    build:
-      context: ./.docker/cert-authority
-    stdin_open: true 
-    tty: true
-    volumes:
-      - cert-authority:/usr/lib/easy-rsa/easyrsa3/
-      - certificates:/usr/local/etc/haproxy/certificates
  
 volumes:
     config:
-    prometheus:
     haproxy:
     certificates:
-    gitlab-config:
-    gitlab-log:
-    gitlab-opt:
-    runner:
-    cert-authority:
 
 networks:
   default:
