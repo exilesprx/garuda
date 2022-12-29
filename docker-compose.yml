@@ -1,8 +1,8 @@
 version: "3"
 services:
-  dns-server:
+  dns:
     hostname: dns-server
-    image: technitium/dns-server:latest
+    image: technitium/dns-server:10.0.1
     # Use "host" network mode for DHCP deployments
     # network_mode: "host"
     ports:
